@@ -1,4 +1,6 @@
-using z8l_intranet_be.Modules.PermissionModule.Dto;
+
+
+using z8l_intranet_be.Infrastructure.Schemas;
 
 namespace z8l_intranet_be.Infrastructure.Repositories
 {

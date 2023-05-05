@@ -1,9 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using z8l_intranet_be.Helper;
-using z8l_intranet_be.Modules.UserModule;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using z8l_intranet_be.Services;
 
 namespace z8l_intranet_be.Middleware
 {

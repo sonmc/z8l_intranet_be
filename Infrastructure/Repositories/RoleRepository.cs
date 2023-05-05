@@ -1,4 +1,5 @@
-using z8l_intranet_be.Modules.UserModule.Dto;
+
+using z8l_intranet_be.Infrastructure.Schemas;
 namespace z8l_intranet_be.Infrastructure.Repositories
 {
     public interface IRoleRepository : IGeneralRepository<RoleSchema>

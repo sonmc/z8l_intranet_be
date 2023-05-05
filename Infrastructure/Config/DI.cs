@@ -1,10 +1,6 @@
-
-
 using z8l_intranet_be.Infrastructure.Repositories;
-using z8l_intranet_be.Modules.RolePermModule;
-using z8l_intranet_be.Modules.UserModule;
 using z8l_intranet_be.Repositories.UnitOfWork;
-
+using z8l_intranet_be.Services;
 namespace z8l_intranet_be.Infrastructure.Config
 {
     public class DIConfig

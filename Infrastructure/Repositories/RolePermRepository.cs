@@ -1,4 +1,5 @@
-using z8l_intranet_be.Modules.RolePermModule.Dto;
+
+using z8l_intranet_be.Infrastructure.Schemas;
 namespace z8l_intranet_be.Infrastructure.Repositories
 {
     public interface IRolePermRepository : IGeneralRepository<RolePermSchema>

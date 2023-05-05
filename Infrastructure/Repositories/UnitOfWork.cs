@@ -2,6 +2,8 @@
 using z8l_intranet_be.Infrastructure;
 using z8l_intranet_be.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Threading.Tasks;
+using System;
 
 namespace z8l_intranet_be.Repositories.UnitOfWork
 {
@@ -67,6 +69,11 @@ namespace z8l_intranet_be.Repositories.UnitOfWork
             {
                 this.dbContext.Dispose();
             }
+        }
+
+        Task IUnitOfWork.SaveChangesAsync()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
