@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using z8l_intranet_be.Helper;
+using z8l_intranet_be.Helper.Exception;
+using z8l_intranet_be.Helpers;
 using z8l_intranet_be.Modules.UserModule.Dto;
 
 namespace z8l_intranet_be.Modules.UserModule
@@ -28,15 +30,15 @@ namespace z8l_intranet_be.Modules.UserModule
         {
             if (model.Username == null || model.Password == null) { return BadRequest(); }
             UserEntity user = authService.Login(model.Username, model.Password);
-            string token = Common.GenerateJwtToken(user.Id, appSettings.Secret);
-            string refreshToken = Common.GenerateRefreshToken();
+            string token = JwtService.GenerateJwtToken(user.Id, appSettings.Secret);
+            string refreshToken = JwtService.GenerateRefreshToken();
             Response.Cookies.Append("Token", token);
             Response.Cookies.Append("RefreshToken", refreshToken);
             return Ok();
         }
 
-        [HttpGet("getCurrentUser")]
-        public IActionResult Login()
+        [HttpGet("get-current-user")]
+        public IActionResult GetCurrentUser()
         {
             string token = Request.Cookies["Token"];
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -57,12 +59,12 @@ namespace z8l_intranet_be.Modules.UserModule
             int id = 0;
             if (!Int32.TryParse(userCredentialString, out id))
             {
-                // throw new UnauthorizedException();
+                throw new UnauthorizedException();
             }
             UserEntity user = userService.GetOne(id);
             if (user == null)
             {
-                // throw new UnauthorizedException();
+                throw new UnauthorizedException();
             }
             return Ok(user);
         }
@@ -72,6 +74,30 @@ namespace z8l_intranet_be.Modules.UserModule
         {
             Response.Cookies.Delete("Token");
             return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("refresh-token")]
+        public IActionResult RefreshToken(RefreshTokenPresenter request)
+        {
+            string token = request.Token;
+            string refreshToken = request.RefreshToken;
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+            var userCredentialString = jwtToken.Claims.First(x => x.Type == "id").Value;
+            int userId = Int32.Parse(userCredentialString);
+            UserEntity user = userService.GetOne(userId);
+            if (user == null || user.RefreshToken != request.RefreshToken)
+            {
+                throw new BadRequestException("EXCEPTION.UNAUTHORIZED");
+            }
+            var accessToken = JwtService.GenerateJwtToken(userId, appSettings.Secret);
+            return Ok(new
+            {
+                AccessToken = accessToken,
+                ExpiresIn = (int)JwtService.GetRefreshTokenExpiryTime()
+            });
         }
 
     }

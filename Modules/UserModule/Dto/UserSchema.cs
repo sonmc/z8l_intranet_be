@@ -9,6 +9,7 @@ namespace z8l_intranet_be.Modules.UserModule.Dto
         public string Email { get; set; }
         public int Age { get; set; }
         public string? Password { get; set; }
+        public string? RefreshToken { get; set; }
         public List<RoleSchema>? Roles { get; set; }
         public UserSchema() { }
         public UserSchema(UserEntity entity)

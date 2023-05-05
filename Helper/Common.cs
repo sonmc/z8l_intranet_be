@@ -18,6 +18,20 @@ namespace z8l_intranet_be.Helper
         public const string CURRENT_USER = "CURRENT_USER";
         private static Random random = new Random();
 
+        public struct ResponseHeaders
+        {
+            public const string TOKEN_EXPIRED = "Token-Expired";
+        }
+
+        public enum ExceptionType
+        {
+            DEFAULT = 0,
+            NOT_FOUND = 1,
+            NO_PERMISSION = 2,
+            BAD_REQUEST = 3,
+            UNAUTHORIZED = 4
+        }
+
         public struct TIMEZONE_ID
         {
             public const string GMT7 = "SE Asia Standard Time";
@@ -96,38 +110,6 @@ namespace z8l_intranet_be.Helper
                 hash.Append(bytes[i].ToString("x2"));
             }
             return hash.ToString();
-        }
-
-        public static string GenerateJwtToken(int userId, string secret)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim("id", userId.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
-
-        public static string GenerateRefreshToken()
-        {
-            var randomNumber = new byte[64];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
-
-        public static int GetRefreshTokenExpiryTime()
-        {
-            var refreshTokenExpiryDate = DateTime.Now.AddDays(7);
-            return Common.DateTimeToUnixTimeStamp(refreshTokenExpiryDate);
         }
 
         public static bool IsPhoneNbr(string number)
@@ -214,45 +196,7 @@ namespace z8l_intranet_be.Helper
         {
             return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, 0, DateTimeKind.Utc);
         }
-        public static string ContentMail(string organName, string email, string password)
-        {
 
-            string template = string.Format("<div style='padding:0px 33px 0 0px;width:437px;'>"
-                 + "<img src='{3}'/>"
-                 + "<div style='padding-left:30px'>"
-                 + "<h2> Thông tin đăng nhập </h2>"
-                 + "<p> Hệ thống LMS - {0} </p>"
-                 + "<hr/>"
-                 + "<p> Tên đăng nhập: {1} </p>"
-                 + "<p> Mật khẩu: {2} </p>"
-                 //+ "<p> Để đảm bảo sự bảo mật của tài khoản, đổi mật khẩu<a href='goole.com.vn'> tại đây</a></p>"
-                 + "<div style='background:#F2CE5F;width:66%;display:flex;justify-content:center;text-decoration:none;border-radius:4px;'>"
-                 + "<a href ='https://lms.stg.kidsenglish.vn/' style='font-size:18px;font-weight:600;padding:11px;font-family:SYSTEM-UI;text-decoration:none;'>Đăng nhâp vào hệ thống LMS</a>"
-                 + "</div>"
-                 + "<p style='font-size:17px;font-weight:600;'>Bạn cần hỗ trợ ?</p>"
-                 + "<p style='font-size:17px;'> Email hỗ trợ: <a href='mailto:hotro@vietec.com.vn'> hotro@vietec.com.vn </a></p>"
-                 + "</div>"
-                 + "</div>", organName, email, password, "https://stg.static.kidsenglish.vn/files/logo_mail.png");
-            return template;
-        }
-
-        public static string Encode(string url)
-        {
-            return HttpUtility.UrlEncode(url);
-        }
-
-        public static string Decode(string url)
-        {
-            return HttpUtility.UrlDecode(url);
-        }
-
-        public static string GenerateCode(string str, int idx)
-        {
-            //string[] arr = (string[])str.Split(' ').Reverse();
-            var index = (10000000 + idx).ToString();
-            var result = "Ecl" + index;
-            return result;
-        }
 
         public static List<int> ConvertStringToList(string str, string key)
         {
@@ -267,7 +211,6 @@ namespace z8l_intranet_be.Helper
         {
             return string.Join(key, list);
         }
-
 
         public static string FormatPhoneNumber(string phoneNumber)
         {

@@ -8,6 +8,7 @@ namespace z8l_intranet_be.Modules.UserModule.Dto
         public string FullName { get; set; }
         public string Email { get; set; }
         public int Age { get; set; }
+        public string RefreshToken { get; set; }
         public UserEntity() { }
         public UserEntity(UserSchema userSchema)
         {
