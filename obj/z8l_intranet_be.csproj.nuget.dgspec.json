@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/macbook/Desktop/Projects/Z8l_Intranet/z8l_intranet_be/z8l_intranet_be.csproj": {}
+    "/Users/macbook/Desktop/Projects/z8l_intranet_be/z8l_intranet_be.csproj": {}
   },
   "projects": {
-    "/Users/macbook/Desktop/Projects/Z8l_Intranet/z8l_intranet_be/z8l_intranet_be.csproj": {
+    "/Users/macbook/Desktop/Projects/z8l_intranet_be/z8l_intranet_be.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/macbook/Desktop/Projects/Z8l_Intranet/z8l_intranet_be/z8l_intranet_be.csproj",
+        "projectUniqueName": "/Users/macbook/Desktop/Projects/z8l_intranet_be/z8l_intranet_be.csproj",
         "projectName": "z8l_intranet_be",
-        "projectPath": "/Users/macbook/Desktop/Projects/Z8l_Intranet/z8l_intranet_be/z8l_intranet_be.csproj",
+        "projectPath": "/Users/macbook/Desktop/Projects/z8l_intranet_be/z8l_intranet_be.csproj",
         "packagesPath": "/Users/macbook/.nuget/packages/",
-        "outputPath": "/Users/macbook/Desktop/Projects/Z8l_Intranet/z8l_intranet_be/obj/",
+        "outputPath": "/Users/macbook/Desktop/Projects/z8l_intranet_be/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/macbook/.nuget/NuGet/NuGet.Config"
@@ -38,9 +38,31 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[6.0.1, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
